@@ -1,7 +1,9 @@
 package com.example.assertmanangement;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -120,8 +122,21 @@ public class AddAssetActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean success) {
             if (success) {
+                // Show toast immediately
                 Toast.makeText(AddAssetActivity.this, "Asset posted successfully!", Toast.LENGTH_SHORT).show();
-                // Optionally, clear fields or finish activity
+
+                // Delay for 10 seconds then go to MainActivity and show toast
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(AddAssetActivity.this, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        Toast.makeText(AddAssetActivity.this, "Successfully added", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                }, 10000); // 10,000 milliseconds = 10 seconds
+
             } else {
                 Toast.makeText(AddAssetActivity.this, "Failed to post asset.", Toast.LENGTH_SHORT).show();
             }
