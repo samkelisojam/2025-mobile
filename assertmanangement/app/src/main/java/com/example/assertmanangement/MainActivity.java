@@ -3,6 +3,7 @@ package com.example.assertmanangement;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -30,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private ArrayList<String> assetList;
 
+    private Handler refreshHandler;
+    private Runnable refreshRunnable;
+    private static final int REFRESH_INTERVAL_MS = 30_000; // 30 seconds
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +46,6 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, assetList);
         assetsListView.setAdapter(adapter);
 
-        // Call AsyncTask to fetch assets
-        new GetAssetsTask().execute();
-
         // Set up button to add new asset
         Button addButton = findViewById(R.id.addAssetButton);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +56,29 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // Set up auto-refresh
+        refreshHandler = new Handler();
+        refreshRunnable = new Runnable() {
+            @Override
+            public void run() {
+                new GetAssetsTask().execute();
+                refreshHandler.postDelayed(this, REFRESH_INTERVAL_MS);
+            }
+        };
+
+        // Start first data fetch and auto-refresh
+        new GetAssetsTask().execute();
+        refreshHandler.postDelayed(refreshRunnable, REFRESH_INTERVAL_MS);
+    }
+
+    @Override
+    protected void onDestroy() {
+        // Remove callbacks to avoid memory leaks
+        if (refreshHandler != null && refreshRunnable != null) {
+            refreshHandler.removeCallbacks(refreshRunnable);
+        }
+        super.onDestroy();
     }
 
     private class GetAssetsTask extends AsyncTask<Void, Void, String> {
