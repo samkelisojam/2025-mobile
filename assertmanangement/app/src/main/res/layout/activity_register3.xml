@@ -3,80 +3,75 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:gravity="center"
+    android:background="@android:color/white"
+    android:padding="24dp">
+
+    <!-- App Logo (optional, remove if not needed) -->
+    <ImageView
+        android:id="@+id/appLogoImageView"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/ic_launcher"
+        android:contentDescription="App Logo"
+        android:layout_marginBottom="24dp"
+        android:background="?android:selectableItemBackgroundBorderless"
+        android:elevation="6dp"
+        android:scaleType="centerInside"/>
 
     <TextView
-        android:id="@+id/titleTextView"
+        android:id="@+id/signInTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="User Registration"
-        android:textSize="24sp"
+        android:text="Welcome Back!"
+        android:textSize="28sp"
         android:textStyle="bold"
+        android:textColor="#222222"
         android:layout_gravity="center_horizontal"
-        android:paddingBottom="16dp"/>
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/signInSubtitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign in to continue"
+        android:textSize="16sp"
+        android:textColor="#666666"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="24dp"/>
 
     <EditText
         android:id="@+id/usernameEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:hint="Username"
-        android:inputType="textPersonName"/>
+        android:inputType="textPersonName"
+        android:background="@drawable/rounded_edit_text"
+        android:paddingHorizontal="16dp"
+        android:layout_marginBottom="12dp"/>
 
     <EditText
         android:id="@+id/passwordEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:hint="Password"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword"
+        android:background="@drawable/rounded_edit_text"
+        android:paddingHorizontal="16dp"
+        android:layout_marginBottom="8dp"/>
 
-    <EditText
-        android:id="@+id/fullNameEditText"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/forgotPasswordTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Full Name"
-        android:inputType="textPersonName"/>
-
-    <EditText
-        android:id="@+id/emailEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        android:inputType="textEmailAddress"/>
-
-    <EditText
-        android:id="@+id/roleIdEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Role ID"
-        android:inputType="text"/>
-
-    <EditText
-        android:id="@+id/statusEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Status"
-        android:inputType="text"/>
-
-    <EditText
-        android:id="@+id/staffNumberEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Staff Number"
-        android:inputType="number"/>
-
-    <EditText
-        android:id="@+id/studentNumberEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Student Number"
-        android:inputType="number"/>
-
-    <EditText
-        android:id="@+id/saIdEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="SA ID"
-        android:inputType="text"/>
+        android:text="Forgot Password?"
+        android:textColor="#228be6"
+        android:textSize="14sp"
+        android:layout_gravity="end"
+        android:paddingBottom="12dp"
+        android:clickable="true"
+        android:focusable="true"/>
 
     <TextView
         android:id="@+id/errorTextView"
@@ -84,13 +79,45 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/holo_red_dark"
         android:visibility="gone"
-        android:paddingTop="8dp"/>
+        android:paddingTop="4dp"
+        android:textSize="14sp"
+        android:gravity="center_horizontal"/>
 
     <Button
-        android:id="@+id/registerButton"
+        android:id="@+id/signInButton"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Sign In"
+        android:backgroundTint="#228be6"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="12dp"
+        android:elevation="2dp"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register"
-        android:layout_marginTop="16dp"/>
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't have an account?"
+            android:textSize="14sp"
+            android:textColor="#888888"/>
+
+        <TextView
+            android:id="@+id/registerNowTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" Register now"
+            android:textSize="14sp"
+            android:textColor="#228be6"
+            android:textStyle="bold"
+            android:clickable="true"
+            android:focusable="true"/>
+    </LinearLayout>
 
 </LinearLayout>
