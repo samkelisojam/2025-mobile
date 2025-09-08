@@ -2,60 +2,191 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:background="#F6F8FA"
+    android:padding="0dp">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="24dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add New Asset"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#1976D2"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Asset Inputs -->
         <EditText
             android:id="@+id/assetTagEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Asset Tag" />
+            android:hint="Asset Tag"
+            android:background="@android:drawable/edit_text"
+            android:layout_marginBottom="12dp"
+            android:padding="10dp"/>
 
         <EditText
             android:id="@+id/assetNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Asset Name" />
+            android:hint="Asset Name"
+            android:background="@android:drawable/edit_text"
+            android:layout_marginBottom="12dp"
+            android:padding="10dp"/>
 
         <EditText
             android:id="@+id/roomEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Room" />
+            android:hint="Room"
+            android:background="@android:drawable/edit_text"
+            android:layout_marginBottom="12dp"
+            android:padding="10dp"/>
 
         <EditText
             android:id="@+id/conditionEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Condition" />
+            android:hint="Condition"
+            android:background="@android:drawable/edit_text"
+            android:layout_marginBottom="12dp"
+            android:padding="10dp"/>
 
         <EditText
             android:id="@+id/locationEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Location" />
+            android:hint="Location"
+            android:background="@android:drawable/edit_text"
+            android:layout_marginBottom="12dp"
+            android:padding="10dp"/>
 
         <EditText
             android:id="@+id/notesEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Notes" />
+            android:hint="Notes"
+            android:background="@android:drawable/edit_text"
+            android:layout_marginBottom="12dp"
+            android:padding="10dp"/>
 
         <EditText
             android:id="@+id/submittedByEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Submitted By (Number)" />
+            android:hint="Submitted By (Number)"
+            android:background="@android:drawable/edit_text"
+            android:layout_marginBottom="18dp"
+            android:padding="10dp"/>
 
+        <!-- Section: Pictures -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Attach Photos (Optional)"
+            android:textSize="16sp"
+            android:textColor="#1976D2"
+            android:layout_marginBottom="8dp"
+            android:textStyle="bold"/>
+
+        <!-- Picture 1 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <Button
+                android:id="@+id/takePictureButton1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Take Picture 1"
+                android:backgroundTint="#1976D2"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="12dp"/>
+
+            <ImageView
+                android:id="@+id/picturePreview1"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:scaleType="centerCrop"
+                android:background="@drawable/picture_preview_bg"
+                android:src="@android:drawable/ic_menu_camera"/>
+        </LinearLayout>
+
+        <!-- Picture 2 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <Button
+                android:id="@+id/takePictureButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Take Picture 2"
+                android:backgroundTint="#1976D2"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="12dp"/>
+
+            <ImageView
+                android:id="@+id/picturePreview2"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:scaleType="centerCrop"
+                android:background="@drawable/picture_preview_bg"
+                android:src="@android:drawable/ic_menu_camera"/>
+        </LinearLayout>
+
+        <!-- Picture 3 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <Button
+                android:id="@+id/takePictureButton3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Take Picture 3"
+                android:backgroundTint="#1976D2"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="12dp"/>
+
+            <ImageView
+                android:id="@+id/picturePreview3"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:scaleType="centerCrop"
+                android:background="@drawable/picture_preview_bg"
+                android:src="@android:drawable/ic_menu_camera"/>
+        </LinearLayout>
+
+        <!-- Submit Button -->
         <Button
             android:id="@+id/submitButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Post Asset" />
-
+            android:text="Post Asset"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:fontFamily="sans-serif-medium"
+            android:backgroundTint="#1976D2"
+            android:layout_marginTop="18dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:elevation="2dp"/>
     </LinearLayout>
 </ScrollView>
