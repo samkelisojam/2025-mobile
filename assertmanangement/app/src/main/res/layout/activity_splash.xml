@@ -1,7 +1,7 @@
-<!-- res/layout/activity_splash.xml -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     android:padding="16dp"
     android:gravity="center"
     android:orientation="vertical">
@@ -10,11 +10,13 @@
         android:id="@+id/welcomeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to Asset Management"
-        android:textSize="18sp"
+        android:text="Welcome to University of Free State\nAsset Management"
+        android:textSize="22sp"
         android:textStyle="bold"
+        android:textColor="@color/white"
+        android:gravity="center"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="28dp"/>
 
     <ProgressBar
         android:id="@+id/progressBar"
