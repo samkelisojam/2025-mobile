@@ -1,5 +1,6 @@
 package com.example.assertmanangement;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +20,7 @@ public class SignUp extends AppCompatActivity {
 
     private static final String API_URL = "https://oracleapex.com/ords/holdingtechsa/campus-users/users/";
 
-    // Corresponds to dropdown positions: admin, student, lecture, staff
+    // Role IDs for Spinner: Admin, Student, Lecture, Staff
     private final int[] roleIds = {1, 2, 3, 4};
 
     @Override
@@ -39,7 +40,7 @@ public class SignUp extends AppCompatActivity {
         registerButton = findViewById(R.id.registerButton);
         errorTextView = findViewById(R.id.errorTextView);
 
-        // Set up Spinner
+        // Set up Spinner for roles
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,
@@ -133,6 +134,9 @@ public class SignUp extends AppCompatActivity {
             super.onPostExecute(success);
             if (success) {
                 Toast.makeText(SignUp.this, "Registration successful!", Toast.LENGTH_SHORT).show();
+                // Take user to login screen after successful registration
+                Intent intent = new Intent(SignUp.this, SignIn.class);
+                startActivity(intent);
                 finish();
             } else {
                 errorTextView.setText("Registration failed. Please try again.");
