@@ -84,17 +84,15 @@
                 android:padding="16dp"
                 android:layout_marginBottom="8dp"/>
 
-            <EditText
-                android:id="@+id/roleIdEditText"
+            <!-- Spinner for Role Selection -->
+            <Spinner
+                android:id="@+id/roleSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Role ID"
-                android:inputType="text"
                 android:background="#30ffffff"
-                android:textColorHint="@color/white"
-                android:textColor="@color/white"
-                android:padding="16dp"
-                android:layout_marginBottom="8dp"/>
+                android:padding="12dp"
+                android:layout_marginBottom="8dp"
+                android:popupBackground="@color/white"/>
 
             <EditText
                 android:id="@+id/statusEditText"
