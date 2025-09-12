@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -24,12 +23,12 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
-    // Replace with your API URL
+    // API URL
     private static final String API_URL = "https://oracleapex.com/ords/holdingtechsa/userAssert/auser";
 
     private ListView assetsListView;
-    private ArrayAdapter<String> adapter;
-    private ArrayList<String> assetList;
+    private AssetAdapter adapter;
+    private ArrayList<AssetAdapter.Asset> assetList;
 
     private Handler refreshHandler;
     private Runnable refreshRunnable;
@@ -40,24 +39,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize ListView and Adapter
+        // Initialize views
         assetsListView = findViewById(R.id.assetsListView);
         assetList = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, assetList);
+        adapter = new AssetAdapter(this, assetList);
         assetsListView.setAdapter(adapter);
 
-        // Set up button to add new asset
         Button addButton = findViewById(R.id.addAssetButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Launch AddAssetActivity (you need to create this activity)
+                // Open activity to add asset
                 Intent intent = new Intent(MainActivity.this, AddAssetActivity.class);
                 startActivity(intent);
             }
         });
 
-        // Set up auto-refresh
+        // Auto-refresh handler
         refreshHandler = new Handler();
         refreshRunnable = new Runnable() {
             @Override
@@ -67,14 +65,14 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        // Start first data fetch and auto-refresh
+        // Initial fetch and auto-refresh setup
         new GetAssetsTask().execute();
         refreshHandler.postDelayed(refreshRunnable, REFRESH_INTERVAL_MS);
     }
 
     @Override
     protected void onDestroy() {
-        // Remove callbacks to avoid memory leaks
+        // Clean up handler
         if (refreshHandler != null && refreshRunnable != null) {
             refreshHandler.removeCallbacks(refreshRunnable);
         }
@@ -112,22 +110,35 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            // Parse JSON response and update list
             try {
                 JSONObject jsonResponse = new JSONObject(result);
                 JSONArray items = jsonResponse.getJSONArray("items");
-                assetList.clear(); // Clear previous data
+                assetList.clear();
 
                 for (int i = 0; i < items.length(); i++) {
                     JSONObject asset = items.getJSONObject(i);
+
                     int assetId = asset.getInt("asset_id");
                     String assetTag = asset.getString("asset_tag");
                     String assetName = asset.getString("asset_name");
+                    String room = asset.getString("room");
+                    String condition = asset.getString("condition");
+                    String location = asset.getString("location");
+                    String notes = asset.getString("notes");
 
-                    String displayAsset = "ID: " + assetId + ", Tag: " + assetTag + ", Name: " + assetName;
-                    assetList.add(displayAsset);
+                    AssetAdapter.Asset newAsset = new AssetAdapter.Asset(
+                            assetId,
+                            assetTag,
+                            assetName,
+                            room,
+                            condition,
+                            location,
+                            notes
+                    );
+                    assetList.add(newAsset);
                 }
-                adapter.notifyDataSetChanged(); // Refresh ListView
+
+                adapter.notifyDataSetChanged();
             } catch (Exception e) {
                 Log.e(TAG, "Exception in parsing JSON: " + e.getMessage());
             }
