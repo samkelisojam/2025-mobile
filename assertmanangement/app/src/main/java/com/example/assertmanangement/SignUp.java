@@ -3,10 +3,14 @@ package com.example.assertmanangement;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import org.json.JSONObject;
+
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -19,9 +23,7 @@ public class SignUp extends AppCompatActivity {
     private TextView errorTextView;
 
     private static final String API_URL = "https://oracleapex.com/ords/holdingtechsa/campus-users/users/";
-
-    // Role IDs for Spinner: Admin, Student, Lecture, Staff
-    private final int[] roleIds = {1, 2, 3, 4};
+    private final int[] roleIds = {1, 2, 3, 4}; // Admin, Student, Lecture, Staff
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,6 @@ public class SignUp extends AppCompatActivity {
         registerButton = findViewById(R.id.registerButton);
         errorTextView = findViewById(R.id.errorTextView);
 
-        // Set up Spinner for roles
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,
@@ -63,14 +64,14 @@ public class SignUp extends AppCompatActivity {
         String studentNumber = studentNumberEditText.getText().toString().trim();
         String saId = saIdEditText.getText().toString().trim();
 
-        // Validate input
-        if (username.isEmpty() || password.isEmpty() || fullName.isEmpty() || email.isEmpty() ||
-                status.isEmpty() || staffNumber.isEmpty() || studentNumber.isEmpty() ||
-                saId.isEmpty()) {
+        // Validation
+        if (username.isEmpty() || password.isEmpty() || fullName.isEmpty() || email.isEmpty()
+                || status.isEmpty() || staffNumber.isEmpty() || studentNumber.isEmpty() || saId.isEmpty()) {
             errorTextView.setText("All fields are required.");
             errorTextView.setVisibility(View.VISIBLE);
             return;
         }
+
         if (saId.length() != 13 || !saId.matches("\\d{13}")) {
             errorTextView.setText("SA ID must be exactly 13 digits.");
             errorTextView.setVisibility(View.VISIBLE);
@@ -83,6 +84,7 @@ public class SignUp extends AppCompatActivity {
     private class RegisterUserTask extends AsyncTask<Void, Void, Boolean> {
         private String username, password, fullName, email, status, staffNumber, studentNumber, saId;
         private int roleId;
+        private int responseCode = -1;
 
         public RegisterUserTask(String username, String password, String fullName, String email,
                                 int roleId, String status, String staffNumber, String studentNumber, String saId) {
@@ -119,12 +121,16 @@ public class SignUp extends AppCompatActivity {
 
                 OutputStream os = conn.getOutputStream();
                 os.write(jsonObject.toString().getBytes("UTF-8"));
+                os.flush();
                 os.close();
 
-                int responseCode = conn.getResponseCode();
-                return responseCode == HttpURLConnection.HTTP_CREATED;
+                responseCode = conn.getResponseCode();
+                Log.d("RegisterUserTask", "Response Code: " + responseCode);
+
+                return responseCode >= 200 && responseCode < 300;
+
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("RegisterUserTask", "Error: ", e);
                 return false;
             }
         }
@@ -132,14 +138,17 @@ public class SignUp extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean success) {
             super.onPostExecute(success);
+            Log.d("RegisterUserTask", "onPostExecute: success = " + success);
+
             if (success) {
                 Toast.makeText(SignUp.this, "Registration successful!", Toast.LENGTH_SHORT).show();
-                // Take user to login screen after successful registration
                 Intent intent = new Intent(SignUp.this, SignIn.class);
                 startActivity(intent);
-                finish();
+                finish(); // close the current activity
             } else {
-                errorTextView.setText("Registration failed. Please try again.");
+                String msg = "Registration failed. Code: " + responseCode;
+                Toast.makeText(SignUp.this, msg, Toast.LENGTH_LONG).show();
+                errorTextView.setText(msg);
                 errorTextView.setVisibility(View.VISIBLE);
             }
         }
